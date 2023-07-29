@@ -41,4 +41,16 @@ export class Repository {
   getAllTracks() {
     return [...this.tracks.values()];
   }
+
+  async saveTrack(track: Track) {
+    this.tracks.set(track.id, track);
+  }
+
+  async getTrack(id: string): Promise<Track> {
+    return this.tracks.get(id);
+  }
+
+  async deleteTrack(id: string): Promise<void> {
+    this.tracks.delete(id);
+  }
 }
