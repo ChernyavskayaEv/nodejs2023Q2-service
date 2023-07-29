@@ -17,10 +17,17 @@ interface Track {
   duration: number;
 }
 
+interface Artist {
+  id: string;
+  name: string;
+  grammy: boolean;
+}
+
 @Injectable()
 export class Repository {
   private users = new Map<string, User>();
   private tracks = new Map<string, Track>();
+  private artists = new Map<string, Artist>();
 
   getAllUsers() {
     return [...this.users.values()];
@@ -52,5 +59,21 @@ export class Repository {
 
   async deleteTrack(id: string): Promise<void> {
     this.tracks.delete(id);
+  }
+
+  getAllArtists() {
+    return [...this.artists.values()];
+  }
+
+  async saveArtist(artist: Artist) {
+    this.artists.set(artist.id, artist);
+  }
+
+  async getArtist(id: string): Promise<Artist> {
+    return this.artists.get(id);
+  }
+
+  async deleteArtist(id: string): Promise<void> {
+    this.artists.delete(id);
   }
 }
