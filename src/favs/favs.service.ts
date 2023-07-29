@@ -1,26 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFavDto } from './dto/create-fav.dto';
-import { UpdateFavDto } from './dto/update-fav.dto';
+import { Repository } from 'src/repository';
 
 @Injectable()
 export class FavsService {
-  create(createFavDto: CreateFavDto) {
-    return 'This action adds a new fav';
+  constructor(private repository: Repository) {}
+
+  async create(id: string, category: string): Promise<any> {
+    return await this.repository.saveFavorite(id, category);
   }
 
   findAll() {
-    return `This action returns all favs`;
+    return this.repository.getAllFavorites();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} fav`;
-  }
-
-  update(id: number, updateFavDto: UpdateFavDto) {
-    return `This action updates a #${id} fav`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} fav`;
+  remove(id: string, category: string) {
+    return this.repository.deleteFavorite(id, category);
   }
 }

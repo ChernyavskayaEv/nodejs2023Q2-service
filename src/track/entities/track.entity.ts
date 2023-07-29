@@ -12,8 +12,8 @@ export class Track {
     const track = new Track();
     track.id = randomUUID();
     track.name = dto.name;
-    track.artistId = null;
-    track.albumId = null;
+    track.artistId = dto.artistId ?? null;
+    track.albumId = dto.albumId ?? null;
     track.duration = dto.duration;
 
     return track;

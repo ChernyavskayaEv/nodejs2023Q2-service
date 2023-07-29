@@ -1,15 +1,37 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+  HttpCode,
+  Put,
+  NotFoundException,
+  HttpException,
+} from '@nestjs/common';
 import { FavsService } from './favs.service';
-import { CreateFavDto } from './dto/create-fav.dto';
-import { UpdateFavDto } from './dto/update-fav.dto';
+
+const categories = ['album', 'artist', 'track'];
 
 @Controller('favs')
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}
 
-  @Post()
-  create(@Body() createFavDto: CreateFavDto) {
-    return this.favsService.create(createFavDto);
+  @Post('/:category/:id')
+  async create(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('category') category: string,
+  ) {
+    if (!categories.includes(category)) throw new NotFoundException();
+    try {
+      return await this.favsService.create(id, category);
+    } catch (error) {
+      if (error.message === '422')
+        throw new HttpException('Record not exists', 422);
+    }
   }
 
   @Get()
@@ -17,18 +39,14 @@ export class FavsController {
     return this.favsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.favsService.findOne(+id);
-  }
+  @HttpCode(204)
+  @Delete('/:category/:id')
+  remove(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('category') category: string,
+  ) {
+    if (!categories.includes(category)) throw new NotFoundException();
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFavDto: UpdateFavDto) {
-    return this.favsService.update(+id, updateFavDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.favsService.remove(+id);
+    return this.favsService.remove(id, category);
   }
 }

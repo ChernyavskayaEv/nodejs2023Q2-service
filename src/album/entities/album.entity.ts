@@ -12,7 +12,7 @@ export class Album {
     album.id = randomUUID();
     album.name = dto.name;
     album.year = dto.year;
-    album.artistId = null;
+    album.artistId = dto.artistId ?? null;
 
     return album;
   }
