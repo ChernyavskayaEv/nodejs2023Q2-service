@@ -1,3 +1,4 @@
+import { Album } from './album/entities/album.entity';
 import { Injectable } from '@nestjs/common';
 
 interface User {
@@ -28,6 +29,7 @@ export class Repository {
   private users = new Map<string, User>();
   private tracks = new Map<string, Track>();
   private artists = new Map<string, Artist>();
+  private albums = new Map<string, Album>();
 
   getAllUsers() {
     return [...this.users.values()];
@@ -75,5 +77,21 @@ export class Repository {
 
   async deleteArtist(id: string): Promise<void> {
     this.artists.delete(id);
+  }
+
+  getAllAlbums() {
+    return [...this.albums.values()];
+  }
+
+  async saveAlbum(album: Album) {
+    this.albums.set(album.id, album);
+  }
+
+  async getAlbum(id: string): Promise<Album> {
+    return this.albums.get(id);
+  }
+
+  async deleteAlbum(id: string): Promise<void> {
+    this.albums.delete(id);
   }
 }
