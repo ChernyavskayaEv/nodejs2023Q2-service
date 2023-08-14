@@ -1,9 +1,16 @@
 import { randomUUID } from 'crypto';
 import { CreateArtistDto } from '../dto/create-artist.dto';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity('artist', { schema: 'public'})
 export class Artist {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
+  
+  @Column('integer')
   name: string;
+  
+  @Column('boolean')
   grammy: boolean;
 
   static createFromDTO(dto: CreateArtistDto): Artist {
