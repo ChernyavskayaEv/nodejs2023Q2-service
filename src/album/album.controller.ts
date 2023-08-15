@@ -3,17 +3,19 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   ParseUUIDPipe,
   Put,
   HttpCode,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
