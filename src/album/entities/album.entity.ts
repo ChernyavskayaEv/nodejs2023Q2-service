@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { CreateAlbumDto } from '../dto/create-album.dto';
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { Entity, JoinColumn, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { Artist } from 'src/artist/entities/artist.entity';
 
 @Entity()
@@ -16,7 +16,8 @@ export class Album {
   year: number;
 
   @Column({ nullable: true})
-  @OneToOne(type => Artist, artist => artist.id)
+  @OneToOne(() => Artist)
+  @JoinColumn()
   artistId: string | null;
 
   static createFromDTO(dto: CreateAlbumDto): Album {
@@ -25,7 +26,6 @@ export class Album {
     album.name = dto.name;
     album.year = dto.year;
     album.artistId = dto.artistId ?? null;
-
     return album;
   }
 }
