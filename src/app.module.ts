@@ -6,7 +6,6 @@ import { ArtistModule } from './artist/artist.module';
 import { TrackModule } from './track/track.module';
 import { AlbumModule } from './album/album.module';
 import { FavsModule } from './favs/favs.module';
-import { Repository } from './repository';
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Artist } from './artist/entities/artist.entity';
 import { Album } from './album/entities/album.entity';
@@ -26,6 +25,6 @@ import { Track } from './track/entities/track.entity';
   }),
     UserModule, ArtistModule, TrackModule, AlbumModule, FavsModule],
   controllers: [AppController],
-  providers: [AppService, Repository],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { CreateTrackDto } from '../dto/create-track.dto';
 import { Entity, JoinColumn, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { Artist } from 'src/artist/entities/artist.entity';
 import { Album } from 'src/album/entities/album.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('track', { schema: 'public'})
 export class Track {
@@ -22,6 +23,11 @@ export class Track {
 
   @Column('integer')
   duration: number;
+
+  @Column('boolean')
+  @Exclude()
+  favorite: boolean;
+
 
   static createFromDTO(dto: CreateTrackDto): Track {
     const track = new Track();

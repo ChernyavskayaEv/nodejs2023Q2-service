@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { CreateUserDto } from './../dto/create-user.dto';
 import { Exclude, Type } from 'class-transformer';
-import { Entity, JoinColumn, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('user', { schema: 'public'})
 export class User {
@@ -32,6 +32,8 @@ export class User {
     user.login = dto.login;
     user.password = dto.password;
     user.version = 1;
+    user.createdAt = new Date();
+    user.updatedAt = new Date();
 
     return user;
   }

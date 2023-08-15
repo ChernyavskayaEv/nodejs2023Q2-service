@@ -2,20 +2,20 @@ import {
   Controller,
   Get,
   Post,
-  Body,
-  Patch,
   Param,
   Delete,
   ParseUUIDPipe,
   HttpCode,
-  Put,
   NotFoundException,
   HttpException,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FavsService } from './favs.service';
 
 const categories = ['album', 'artist', 'track'];
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('favs')
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}
