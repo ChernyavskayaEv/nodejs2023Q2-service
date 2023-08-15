@@ -1,7 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
-// import { Repository } from 'src/repository';
 import { Artist } from './entities/artist.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";

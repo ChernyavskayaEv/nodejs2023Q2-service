@@ -3,7 +3,6 @@ import { CreateAlbumDto } from '../dto/create-album.dto';
 import { Entity, JoinColumn, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { Artist } from 'src/artist/entities/artist.entity';
 
-@Entity()
 @Entity('album', { schema: 'public'})
 export class Album {
   @PrimaryGeneratedColumn('uuid')
@@ -15,9 +14,8 @@ export class Album {
   @Column()
   year: number;
 
-  @Column({ nullable: true})
+  @Column('uuid', { nullable: true, name: 'artistid'})
   @OneToOne(() => Artist)
-  @JoinColumn()
   artistId: string | null;
 
   static createFromDTO(dto: CreateAlbumDto): Album {
