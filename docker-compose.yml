@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15.4
+    restart: always
+    environment:
+      -  POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      -  POSTGRES_USER=${POSTGRES_USER}
+      -  POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - user-network
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  
+  nest:
+    image: rest_service
+    build: .
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:/usr/app
+    networks:
+      - user-network
+    environment:
+      - POSTGRES_HOST=db
+      -  POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      -  POSTGRES_USER=${POSTGRES_USER}
+      -  POSTGRES_DB=${POSTGRES_DB}
+
+volumes:
+  db-data: {}
+
+networks:
+  user-network: {
+    driver: bridge
+  }
